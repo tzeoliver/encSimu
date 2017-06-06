@@ -79,4 +79,6 @@ public class Character {
         }
         return this.condition;
     }
+
+
 }

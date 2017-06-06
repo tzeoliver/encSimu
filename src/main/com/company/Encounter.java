@@ -48,7 +48,7 @@ public class Encounter {
         Random rnd = new Random();
         Collections.shuffle(this.participants, new Random(seed));
 
-        int monst = numberOfOccurances(this.participants,"monster");
+        Map<String,Integer> occur = numberOfOccurrence();
         //System.out.println(monst);
 
         while (this.monsters.size() > 0 && this.players.size() > 0) {
@@ -133,11 +133,11 @@ public class Encounter {
 
     }
 
-    public int numberOfOccurances(List<Character> list, String type) {
+    public Map<String,Integer> numberOfOccurrence() {
 
-        Map<String,Integer> occur = new HashMap<String, Integer>();
+        Map<String,Integer> occur = new HashMap<>();
 
-        list.forEach(item->{
+        this.participants.forEach(item->{
             if (occur.containsKey(item.type)) {
                 occur.replace(item.type,occur.get(item.type)+1);
             } else {
@@ -145,7 +145,7 @@ public class Encounter {
             }
         });
 
-        return Collections.frequency(list,type);
+        return occur;
     }
 
 
