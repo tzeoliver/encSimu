@@ -1,6 +1,9 @@
 package com.company;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * Created by juhanikula on 05/06/17.
@@ -8,11 +11,14 @@ import java.util.Objects;
 public class Character {
 
     String type;
-    String condition;
+    String condition; //Conditions might be a list in the future?
     int ac;
     int hp;
     int toHit;
     int avgDmg;
+    private int deathSaveSuccess;
+    private int deathSaveFails;
+
 
     public Character(String type, int ac, int hp, int toHit, int avgDmg) {
         this.type = type;
@@ -21,6 +27,11 @@ public class Character {
         this.toHit = toHit;
         this.avgDmg = avgDmg;
         this.condition = "conscious";
+
+        if (type.equals("player")) {
+            deathSaveFails = 0;
+            deathSaveSuccess = 0;
+        }
     }
 
     @Override
@@ -80,5 +91,27 @@ public class Character {
         return this.condition;
     }
 
+    public void rollDeathSavingThrow() {
+        Random rnd = new Random();
+        int deathSave = rnd.nextInt(20) + 1;
+
+        if (deathSave == 1) {
+            this.deathSaveFails += 2;
+        } else if (deathSave < 10) {
+            this.deathSaveFails++;
+        } else if (deathSave == 20) {
+            this.deathSaveSuccess += 2;
+        } else {
+            this.deathSaveSuccess++;
+        }
+
+        if (this.deathSaveFails >= 3) {
+            this.condition = "dead";
+        } else if (this.deathSaveSuccess >= 3) {
+            this.condition = "conscious";
+            this.hp = 1;
+        }
+
+    }
 
 }

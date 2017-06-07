@@ -68,6 +68,12 @@ public class Encounter {
                 Character item = this.participants.get(i);
                 if (item.condition.equals("unconscious")) {
                     //If player; roll death saving throw
+                    if (item.type.equals("player")) {
+                        item.rollDeathSavingThrow();
+                    }
+
+                    continue;
+                } else if (item.condition.equals("dead")) {
                     continue;
                 }
 
@@ -130,6 +136,7 @@ public class Encounter {
         return occur;
     }
 
+    //Returns index number of random opponent from participants. Opponent being opposing type.
     public int pickRandomOpponentFor(String type) {
 
         Random rnd = new Random();
