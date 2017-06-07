@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,9 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class EncounterTest {
 
-    Encounter enc;
-    List<Character> monsters;
-    List<Character> players;
+    private Encounter enc;
+    private List<Character> monsters;
+    private List<Character> players;
 
     @BeforeEach
     void setUp() {
@@ -59,4 +58,27 @@ class EncounterTest {
         assert (enc.participants.get(indexNum).type.equals("player"));
     }
 
+    @Test
+    void deathSavingThrows() {
+
+        Player player = new Player(11, 22, 6, 7);
+
+        player.condition = "unconscious";
+
+        for (int i=0; i < 6;i++) {
+            if (player.condition.equals("unconscious")) {
+                player.rollDeathSavingThrow();
+            } else {
+                break;
+            }
+        }
+        assertFalse(player.condition.equals("unconscious"));
+    }
+
+    @Test
+    void playersWin() {
+        monsters.clear();
+        boolean result = enc.fight();
+        assert (result);
+    }
 }

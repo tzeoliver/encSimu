@@ -1,6 +1,11 @@
 package com.company;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Created by juhanikula on 05/06/17.
@@ -53,9 +58,6 @@ public class Encounter {
         Random rnd = new Random();
         Collections.shuffle(this.participants, new Random(seed));
 
-        Map<String,Integer> numOfContestants = numberOfOccurrence();
-        //System.out.println(monst);
-
         while (this.consciousPlayers > 0 && this.consciousMonsters > 0) {
             //System.out.println("Round " + this.roundNumber);
             ////System.out.println(printEncounterStats());
@@ -65,13 +67,14 @@ public class Encounter {
                 if (this.consciousMonsters <= 0 || this.consciousPlayers <= 0) {
                     return (this.consciousPlayers != 0);
                 }
+
                 Character item = this.participants.get(i);
+
                 if (item.condition.equals("unconscious")) {
                     //If player; roll death saving throw
                     if (item.type.equals("player")) {
                         item.rollDeathSavingThrow();
                     }
-
                     continue;
                 } else if (item.condition.equals("dead")) {
                     continue;

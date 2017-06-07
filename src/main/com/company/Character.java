@@ -1,8 +1,5 @@
 package com.company;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -19,7 +16,6 @@ public class Character {
     private int deathSaveSuccess;
     private int deathSaveFails;
 
-
     public Character(String type, int ac, int hp, int toHit, int avgDmg) {
         this.type = type;
         this.ac = ac;
@@ -27,11 +23,6 @@ public class Character {
         this.toHit = toHit;
         this.avgDmg = avgDmg;
         this.condition = "conscious";
-
-        if (type.equals("player")) {
-            deathSaveFails = 0;
-            deathSaveSuccess = 0;
-        }
     }
 
     @Override
@@ -111,7 +102,6 @@ public class Character {
             this.condition = "conscious";
             this.hp = 1;
         }
-
     }
 
 }
