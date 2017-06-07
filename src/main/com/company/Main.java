@@ -24,7 +24,7 @@ public class Main {
 
     private static List<Character> getPlayers() {
 
-        List<Character> players = new ArrayList<Character>();
+        List<Character> players = new ArrayList<>();
         //Character player = new Character("player", 14, 18, 5, 6);
         players.add(new Character("player", 11, 22, 6, 7));
         players.add(new Character("player", 14, 34, 7, 10));
@@ -37,7 +37,7 @@ public class Main {
 
     private static List<Character> getMonsters() {
 
-        List<Character> monsters = new ArrayList<Character>();
+        List<Character> monsters = new ArrayList<>();
         //Character monster = new Character("monster", 13, 25, 3, 4);
         monsters.add(new Character("monster", 13, 90, 5, 9));
         monsters.add(new Character("monster", 13, 90, 5, 9));
