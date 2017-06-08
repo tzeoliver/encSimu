@@ -128,7 +128,7 @@ public class Character implements Comparable<Character>{
         return this.condition;
     }
 
-    public void rollDeathSavingThrow() {
+    public String rollDeathSavingThrow() {
         Random rnd = new Random();
         int deathSave = rnd.nextInt(20) + 1;
 
@@ -148,6 +148,8 @@ public class Character implements Comparable<Character>{
             this.condition = "conscious";
             this.hp = 1;
         }
+
+        return this.condition;
     }
 
 }

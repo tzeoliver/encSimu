@@ -17,9 +17,6 @@ public class Encounter {
     int consciousPlayers;
     int consciousMonsters;
 
-    int deadPlayers;
-    int deadMonsters;
-
     public Encounter(ArrayList<Character> participants) {
         this.participants = participants;
         this.roundNumber = 0;
@@ -72,9 +69,12 @@ public class Encounter {
                 if (item.condition.equals("unconscious")) {
                     //If player; roll death saving throw
                     if (item.type.equals("player")) {
-                        item.rollDeathSavingThrow();
+                        if (!item.rollDeathSavingThrow().equals("conscious")) {
+                            continue;
+                        }
+                    } else {
+                        continue;
                     }
-                    continue;
                 } else if (item.condition.equals("dead")) {
                     continue;
                 }
@@ -111,7 +111,8 @@ public class Encounter {
         return occur;
     }
 
-    //Returns index number of random opponent from participants. Opponent being opposing type.
+    //Returns index number of random opponent from participants.
+    //Opponent must be opposing type and conscious
     public int pickRandomOpponentFor(String type) {
 
         Random rnd = new Random();
@@ -120,9 +121,10 @@ public class Encounter {
 
         while (type.equals(opponent)) {
             indexNum = rnd.nextInt(this.participants.size());
-            opponent = this.participants.get(indexNum).type;
+            if (this.participants.get(indexNum).condition.equals("conscious")) {
+                opponent = this.participants.get(indexNum).type;
+            }
         }
-
         return indexNum;
     }
 
@@ -147,5 +149,28 @@ public class Encounter {
         }
     }
 
+    public int getDeadPlayers() {
+
+        int deadPlayers = 0;
+
+        for (Character item : this.participants ) {
+            if (item.type.equals("player") && item.condition.equals("dead")) {
+                deadPlayers++;
+            }
+        }
+        return deadPlayers;
+    }
+
+    public int getDeadMonsters() {
+
+        int deadMonsters = 0;
+
+        for (Character item : this.participants ) {
+            if (item.type.equals("monster") && item.condition.equals("dead")) {
+                deadMonsters++;
+            }
+        }
+        return deadMonsters;
+    }
 
 }
