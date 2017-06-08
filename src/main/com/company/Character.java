@@ -10,13 +10,19 @@ public class Character implements Comparable<Character>{
     String type;
     String condition; //Conditions might be a list in the future?
     int ac;
+    int maxHp;
     int hp;
     int toHit;
     int avgDmg;
-    private int deathSaveSuccess;
-    private int deathSaveFails;
     private int initiative;
     int initiativeMod;
+
+    //Attack action
+
+
+    //Player specific
+    private int deathSaveSuccess;
+    private int deathSaveFails;
 
     //ability scores
     int strength;
@@ -35,6 +41,7 @@ public class Character implements Comparable<Character>{
         this.type = type;
         this.ac = ac;
         this.hp = hp;
+        this.maxHp = hp;
         this.toHit = toHit;
         this.avgDmg = avgDmg;
         this.condition = "conscious";
@@ -112,7 +119,11 @@ public class Character implements Comparable<Character>{
     public String takeDamage(int dmg) {
         this.hp = this.hp-dmg;
         if (this.hp <= 0) {
-            this.condition = "unconscious";
+            if (Math.abs(this.hp) >= this.maxHp) {
+                this.condition = "dead";
+            } else {
+                this.condition = "unconscious";
+            }
         }
         return this.condition;
     }

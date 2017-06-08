@@ -59,23 +59,6 @@ class EncounterTest {
     }
 
     @Test
-    void deathSavingThrowsTest() {
-
-        Player player = new Player(11, 22, 6, 7);
-
-        player.condition = "unconscious";
-
-        for (int i=0; i < 6;i++) {
-            if (player.condition.equals("unconscious")) {
-                player.rollDeathSavingThrow();
-            } else {
-                break;
-            }
-        }
-        assertFalse(player.condition.equals("unconscious"));
-    }
-
-    @Test
     void playersWinTest() {
         monsters.clear();
         boolean result = enc.fight();

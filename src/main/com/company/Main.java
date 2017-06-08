@@ -48,4 +48,14 @@ public class Main {
         return monsters;
     }
 
+    private static void analyzeResults(Encounter enc) {
+
+        int remainingPlayers = enc.consciousPlayers;
+        int remainingMonsters = enc.consciousMonsters;
+
+
+
+
+    }
+
 }

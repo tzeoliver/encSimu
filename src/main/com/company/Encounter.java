@@ -17,6 +17,9 @@ public class Encounter {
     int consciousPlayers;
     int consciousMonsters;
 
+    int deadPlayers;
+    int deadMonsters;
+
     public Encounter(ArrayList<Character> participants) {
         this.participants = participants;
         this.roundNumber = 0;
@@ -59,10 +62,6 @@ public class Encounter {
         rollForInitiative();
 
         while (this.consciousPlayers > 0 && this.consciousMonsters > 0) {
-            //System.out.println("Round " + this.roundNumber);
-            ////System.out.println(printEncounterStats());
-            ////System.out.println(this.monsters.toString() + "AND"+ this.players.toString() );
-
             for (int i=0; i < this.participants.size(); i++) {
                 if (this.consciousMonsters <= 0 || this.consciousPlayers <= 0) {
                     return (this.consciousPlayers != 0);
@@ -84,43 +83,16 @@ public class Encounter {
                 int opponentIndex = pickRandomOpponentFor(item.type);
 
                 if (attackRoll == 1) {
-                    ////System.out.println("CRIT FAIL");
+                    //MISS
                 } else if (attackRoll == 20) {
-                    ////System.out.println("NATURAL 20");
-                    //Roll dmg
-                    //item.avgDmg*2;
-                    if (this.participants.get(opponentIndex).takeDamage(item.avgDmg*2).equals("unconscious")) {
-                        if (this.participants.get(opponentIndex).type.equals("player")) {
-                            this.consciousPlayers--;
-                        } else {
-                            this.consciousMonsters--;
-                        }
-                    }
-                    //System.out.println("Monster CRITTED dealing " + item.avgDmg * 2 + " points of damage!");
-                } else {
-                    //System.out.println(item.type + " rolled " + (attackRoll + item.toHit));
-                    if (attackRoll + item.toHit >= this.participants.get(opponentIndex).ac) {
-                        //Roll dmg
-                        //item.avgDmg;
-                        if (this.participants.get(opponentIndex).takeDamage(item.avgDmg).equals("unconscious")) {
-                            //System.out.println(this.players.get(hitIndex).hp);
-                            if (this.participants.get(opponentIndex).type.equals("player")) {
-                                this.consciousPlayers--;
-                            } else {
-                                this.consciousMonsters--;
-                            }
-                        }
-                        //System.out.println("Monster hit dealing " + item.avgDmg + " points of damage!");
-                    }
+                    //CRIT, double the dice
+                    successfulHit(opponentIndex,item.avgDmg*2);
+                } else if (attackRoll + item.toHit >= this.participants.get(opponentIndex).ac) {
+                    successfulHit(opponentIndex,item.avgDmg);
                 }
             }
             this.roundNumber++;
-            //System.out.println("---");
         }
-
-        ////System.out.println("Monsters " + this.monsters.size());
-        ////System.out.println("Players " + this.players.size());
-
         return (this.consciousPlayers != 0);
     }
 
@@ -163,6 +135,16 @@ public class Encounter {
         });
 
         Collections.sort(this.participants);
+    }
+
+    public void successfulHit(int index,int damage) {
+        if (this.participants.get(index).takeDamage(damage).equals("unconscious")) {
+            if (this.participants.get(index).type.equals("player")) {
+                this.consciousPlayers--;
+            } else {
+                this.consciousMonsters--;
+            }
+        }
     }
 
 
