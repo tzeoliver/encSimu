@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * Created by juhanikula on 05/06/17.
  */
-public class Character {
+public class Character implements Comparable<Character>{
 
     String type;
     String condition; //Conditions might be a list in the future?
@@ -15,14 +15,30 @@ public class Character {
     int avgDmg;
     private int deathSaveSuccess;
     private int deathSaveFails;
+    private int initiative;
+    int initiativeMod;
+
+    //ability scores
+    int strength;
+    int dexterity;
+    int constitution;
+    int intellect;
+    int wisdom;
+    int charisma;
 
     public Character(String type, int ac, int hp, int toHit, int avgDmg) {
+        this(type,ac,hp,toHit,avgDmg,0);
+    }
+
+    public Character(String type, int ac, int hp, int toHit, int avgDmg, int initiativeMod) {
+        super();
         this.type = type;
         this.ac = ac;
         this.hp = hp;
         this.toHit = toHit;
         this.avgDmg = avgDmg;
         this.condition = "conscious";
+        this.initiativeMod = initiativeMod;
     }
 
     @Override
@@ -72,6 +88,25 @@ public class Character {
 
     public void setAvgDmg(int avgDmg) {
         this.avgDmg = avgDmg;
+    }
+
+    public int getInitiative() {
+        return initiative;
+    }
+
+    public void setInitiative(int initiative) {
+        this.initiative = initiative;
+    }
+
+    public int compareTo(Character compareCharacter) {
+
+        int compareInitiative = ((Character) compareCharacter).getInitiative();
+
+        //ascending order
+        //return this.initiative - compareInitiative;
+
+        //descending order
+        return compareInitiative - this.initiative;
     }
 
     public String takeDamage(int dmg) {

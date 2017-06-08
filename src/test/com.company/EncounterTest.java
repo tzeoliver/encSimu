@@ -15,8 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class EncounterTest {
 
     private Encounter enc;
-    private List<Character> monsters;
-    private List<Character> players;
+    private ArrayList<Character> monsters;
+    private ArrayList<Character> players;
 
     @BeforeEach
     void setUp() {
@@ -34,7 +34,7 @@ class EncounterTest {
     }
 
     @Test
-    void numberOfOccurrence() {
+    void numberOfOccurrenceTest() {
 
         Map<String,Integer>  occurrence = enc.numberOfOccurrence();
         assert (occurrence.get("player") == 4);
@@ -49,7 +49,7 @@ class EncounterTest {
     }
 
     @Test
-    void pickRandomOpponentFor() {
+    void pickRandomOpponentForTest() {
 
         int indexNum = enc.pickRandomOpponentFor("player");
         assert (enc.participants.get(indexNum).type.equals("monster"));
@@ -59,7 +59,7 @@ class EncounterTest {
     }
 
     @Test
-    void deathSavingThrows() {
+    void deathSavingThrowsTest() {
 
         Player player = new Player(11, 22, 6, 7);
 
@@ -76,9 +76,21 @@ class EncounterTest {
     }
 
     @Test
-    void playersWin() {
+    void playersWinTest() {
         monsters.clear();
         boolean result = enc.fight();
         assert (result);
+    }
+
+    @Test
+    void rollForInitiativeTest() {
+
+        enc.rollForInitiative();
+
+        //System.out.println(enc.participants.get(0).getInitiative());
+        for (int i = 1; i < enc.participants.size(); i++) {
+            //System.out.println(enc.participants.get(i).getInitiative());
+            assert (enc.participants.get(i).getInitiative() <= enc.participants.get(i-1).getInitiative());
+        }
     }
 }

@@ -1,30 +1,28 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.Map;
-import java.util.HashMap;
+import com.sun.tools.hat.internal.util.ArraySorter;
+
+import java.lang.reflect.Array;
+import java.util.*;
 
 /**
  * Created by juhanikula on 05/06/17.
  */
 public class Encounter {
 
-    List<Character> participants;
-    List<Character> players;
-    List<Character> monsters;
+    ArrayList<Character> participants;
+    ArrayList<Character> players;
+    ArrayList<Character> monsters;
     int roundNumber;
     int consciousPlayers;
     int consciousMonsters;
 
-    public Encounter(List<Character> participants) {
+    public Encounter(ArrayList<Character> participants) {
         this.participants = participants;
         this.roundNumber = 0;
     }
 
-    public Encounter(List<Character> players, List<Character> monsters) {
+    public Encounter(ArrayList<Character> players, ArrayList<Character> monsters) {
         this.players = players;
         this.consciousPlayers = players.size();
         this.monsters = monsters;
@@ -54,9 +52,11 @@ public class Encounter {
      */
     public boolean fight() {
 
-        long seed = System.nanoTime();
+        //long seed = System.nanoTime();
+        //Collections.shuffle(this.participants, new Random(seed));
         Random rnd = new Random();
-        Collections.shuffle(this.participants, new Random(seed));
+
+        rollForInitiative();
 
         while (this.consciousPlayers > 0 && this.consciousMonsters > 0) {
             //System.out.println("Round " + this.roundNumber);
@@ -152,6 +152,17 @@ public class Encounter {
         }
 
         return indexNum;
+    }
+
+    //Rolls initiative and sorts participants accordingly
+    public void rollForInitiative() {
+        Random rnd = new Random();
+
+        this.participants.forEach(item->{
+            item.setInitiative(rnd.nextInt(20)+1+item.initiativeMod);
+        });
+
+        Collections.sort(this.participants);
     }
 
 
