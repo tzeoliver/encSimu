@@ -13,7 +13,7 @@ public class Main {
 
         Encounter enc;
         int playerWins = 0;
-        int fights = 100;
+        int fights = 1000;
         List<Integer> playerDeaths = new ArrayList<>();
         List<Integer> playersUnconscious = new ArrayList<>();
 
@@ -24,7 +24,6 @@ public class Main {
                 playerWins++;
                 playerDeaths.add(enc.getDeadPlayers());
                 playersUnconscious.add(getPlayers().size()-enc.consciousPlayers);
-                System.out.println("consciouspl:"+enc.consciousPlayers );
             }
         }
 
@@ -38,7 +37,7 @@ public class Main {
 
         ArrayList<Character> players = new ArrayList<>();
         //Character player = new Character("player", 14, 18, 5, 6);
-        players.add(new Character("player", 11, 22, 6, 7));
+        players.add(new Character("player", 11, 22, 6, 10));
         players.add(new Character("player", 14, 34, 7, 10));
         players.add(new Character("player", 15, 34, 6, 10));
         players.add(new Character("player", 14, 38, 6, 10));
@@ -53,9 +52,9 @@ public class Main {
         //Character monster = new Character("monster", 13, 25, 3, 4);
         monsters.add(new Character("monster", 13, 90, 5,9,2,3));
         monsters.add(new Character("monster", 13, 90, 5, 9,2,3));
-        //monsters.add(new Character("monster", 13, 90, 5, 5));
-        //monsters.add(new Character("monster", 13, 20, 5, 5));
-        //monsters.add(new Character("monster", 13, 20, 5, 5));
+        monsters.add(new Character("monster", 13, 20, 5, 5));
+        monsters.add(new Character("monster", 13, 20, 5, 5));
+        monsters.add(new Character("monster", 13, 20, 5, 5));
 
         return monsters;
     }
@@ -68,12 +67,13 @@ public class Main {
         System.out.println("Players won " + playerWins + "/" + fights + ".");
         if (playerWins > 0) {
             System.out.println("In battle where the payers won:");
-            System.out.println("By average " + df.format(calculateAverage(playerUnconscious)) + "/4 went unconscious till the end.");
-            System.out.println(df.format(calculateAverage(playerDeaths)) + "/4 died.");
+            System.out.println("By average " + df.format(calculateAverage(playerUnconscious)) + "/5 went unconscious till the end.");
+            System.out.println(df.format(calculateAverage(playerDeaths)) + "/5 died.");
         } else {
             System.out.println("Monster won every match");
         }
     }
+
     private static double calculateAverage(List <Integer> marks) {
         Integer sum = 0;
         if(!marks.isEmpty()) {

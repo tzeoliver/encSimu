@@ -21,6 +21,7 @@ public class Character implements Comparable<Character>{
     private int deathSaveSuccess;
     private int deathSaveFails;
 
+
     //Ability scores
     int strength;
     int dexterity;
@@ -30,7 +31,7 @@ public class Character implements Comparable<Character>{
     int charisma;
 
     public Character(String type, int ac, int hp, int toHit, int attackDmg) {
-        this(type,ac,hp,toHit,attackDmg,1,0);
+        this(type, ac,hp,toHit,attackDmg,1,0);
     }
 
     public Character(String type, int ac, int hp, int toHit, int attackDmg, int multiattack, int dexterityMod) {
