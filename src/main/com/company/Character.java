@@ -12,19 +12,16 @@ public class Character implements Comparable<Character>{
     int ac;
     int maxHp;
     int hp;
-    int toHit;
-    int avgDmg;
     private int initiative;
-    int initiativeMod;
 
     //Attack action
-
+    AttackActions attacks;
 
     //Player specific
     private int deathSaveSuccess;
     private int deathSaveFails;
 
-    //ability scores
+    //Ability scores
     int strength;
     int dexterity;
     int constitution;
@@ -32,20 +29,19 @@ public class Character implements Comparable<Character>{
     int wisdom;
     int charisma;
 
-    public Character(String type, int ac, int hp, int toHit, int avgDmg) {
-        this(type,ac,hp,toHit,avgDmg,0);
+    public Character(String type, int ac, int hp, int toHit, int attackDmg) {
+        this(type,ac,hp,toHit,attackDmg,1,0);
     }
 
-    public Character(String type, int ac, int hp, int toHit, int avgDmg, int initiativeMod) {
+    public Character(String type, int ac, int hp, int toHit, int attackDmg, int multiattack, int dexterityMod) {
         super();
         this.type = type;
         this.ac = ac;
         this.hp = hp;
         this.maxHp = hp;
-        this.toHit = toHit;
-        this.avgDmg = avgDmg;
         this.condition = "conscious";
-        this.initiativeMod = initiativeMod;
+        this.initiative = dexterityMod;
+        this.attacks = new AttackActions(multiattack,toHit,attackDmg);
     }
 
     @Override
@@ -53,8 +49,8 @@ public class Character implements Comparable<Character>{
         return type + " with" +
                 " AC=" + ac +
                 ", HP=" + hp +
-                ", toHit=" + toHit +
-                ", avgDmg=" + avgDmg;
+                ", toHit=" + attacks.toHit +
+                ", attackDmg=" + attacks.attackDamage;
     }
 
     public String getType() {
@@ -81,22 +77,6 @@ public class Character implements Comparable<Character>{
         this.hp = hp;
     }
 
-    public int getToHit() {
-        return toHit;
-    }
-
-    public void setToHit(int toHit) {
-        this.toHit = toHit;
-    }
-
-    public int getAvgDmg() {
-        return avgDmg;
-    }
-
-    public void setAvgDmg(int avgDmg) {
-        this.avgDmg = avgDmg;
-    }
-
     public int getInitiative() {
         return initiative;
     }
@@ -114,6 +94,10 @@ public class Character implements Comparable<Character>{
 
         //descending order
         return compareInitiative - this.initiative;
+    }
+
+    public int rollDamage() {
+        return this.attacks.rollDamage();
     }
 
     public String takeDamage(int dmg) {

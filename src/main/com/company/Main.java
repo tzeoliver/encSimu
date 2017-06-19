@@ -1,5 +1,7 @@
 package com.company;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class Main {
                 playerWins++;
                 playerDeaths.add(enc.getDeadPlayers());
                 playersUnconscious.add(getPlayers().size()-enc.consciousPlayers);
+                System.out.println("consciouspl:"+enc.consciousPlayers );
             }
         }
 
@@ -39,7 +42,7 @@ public class Main {
         players.add(new Character("player", 14, 34, 7, 10));
         players.add(new Character("player", 15, 34, 6, 10));
         players.add(new Character("player", 14, 38, 6, 10));
-        //players.add(new Character("player", 12, 38, 6, 10));
+        players.add(new Character("player", 12, 38, 6, 10));
 
         return players;
     }
@@ -48,8 +51,8 @@ public class Main {
 
         ArrayList<Character> monsters = new ArrayList<>();
         //Character monster = new Character("monster", 13, 25, 3, 4);
-        monsters.add(new Character("monster", 13, 90, 5, 9));
-        monsters.add(new Character("monster", 13, 90, 5, 9));
+        monsters.add(new Character("monster", 13, 90, 5,9,2,3));
+        monsters.add(new Character("monster", 13, 90, 5, 9,2,3));
         //monsters.add(new Character("monster", 13, 90, 5, 5));
         //monsters.add(new Character("monster", 13, 20, 5, 5));
         //monsters.add(new Character("monster", 13, 20, 5, 5));
@@ -59,12 +62,18 @@ public class Main {
 
     private static void analyzeResults(List<Integer> playerDeaths, List<Integer> playerUnconscious,int playerWins,int fights) {
 
-        System.out.println("Players won "+ playerWins +"/"+fights+"." );
-        System.out.println("In these fights:");
-        System.out.println("By average "+ calculateAverage(playerUnconscious)+"/4 went unconscious till the end.");
-        System.out.println(calculateAverage(playerDeaths)+"/4 died.");
-    }
+        DecimalFormat df = new DecimalFormat("#.###");
+        df.setRoundingMode(RoundingMode.HALF_UP);
 
+        System.out.println("Players won " + playerWins + "/" + fights + ".");
+        if (playerWins > 0) {
+            System.out.println("In battle where the payers won:");
+            System.out.println("By average " + df.format(calculateAverage(playerUnconscious)) + "/4 went unconscious till the end.");
+            System.out.println(df.format(calculateAverage(playerDeaths)) + "/4 died.");
+        } else {
+            System.out.println("Monster won every match");
+        }
+    }
     private static double calculateAverage(List <Integer> marks) {
         Integer sum = 0;
         if(!marks.isEmpty()) {
@@ -73,7 +82,7 @@ public class Main {
             }
             return sum.doubleValue() / marks.size();
         }
+
         return sum;
     }
-
 }

@@ -1,8 +1,5 @@
 package com.company;
 
-import com.sun.tools.hat.internal.util.ArraySorter;
-
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -79,16 +76,25 @@ public class Encounter {
                     continue;
                 }
 
-                int attackRoll = rnd.nextInt(20) + 1;
                 int opponentIndex = pickRandomOpponentFor(item.type);
 
-                if (attackRoll == 1) {
-                    //MISS
-                } else if (attackRoll == 20) {
-                    //CRIT, double the dice
-                    successfulHit(opponentIndex,item.avgDmg*2);
-                } else if (attackRoll + item.toHit >= this.participants.get(opponentIndex).ac) {
-                    successfulHit(opponentIndex,item.avgDmg);
+                for (int j = 0; j < item.attacks.multiAttack; j++) {
+                    if (this.consciousPlayers == 0) { break; }
+                    int attackRoll = rnd.nextInt(20) + 1;
+
+                    if (!this.participants.get(opponentIndex).condition.equals("conscious")) {
+                        opponentIndex = pickRandomOpponentFor(item.type);
+                    }
+
+                    if (attackRoll == 1) {
+                        //MISS
+                        //Lucky rolls, etc.
+                    } else if (attackRoll == 20) {
+                        //CRIT, double the dice
+                        successfulHit(opponentIndex,item.attacks.attackDamage *2);
+                    } else if (attackRoll + item.attacks.toHit >= this.participants.get(opponentIndex).ac) {
+                        successfulHit(opponentIndex,item.attacks.attackDamage);
+                    }
                 }
             }
             this.roundNumber++;
@@ -133,7 +139,7 @@ public class Encounter {
         Random rnd = new Random();
 
         this.participants.forEach(item->{
-            item.setInitiative(rnd.nextInt(20)+1+item.initiativeMod);
+            item.setInitiative(rnd.nextInt(20)+1+item.getInitiative());
         });
 
         Collections.sort(this.participants);
