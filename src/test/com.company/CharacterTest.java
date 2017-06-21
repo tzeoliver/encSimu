@@ -3,6 +3,8 @@ package com.company;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /**
  * Created by juhanikula on 08/06/17.
  */
@@ -20,23 +22,23 @@ class CharacterTest {
         String condition;
 
         condition = player.takeDamage(20);
-        assert (condition.equals("conscious"));
+        assertTrue (condition.equals("conscious"));
 
         player.setHp(22);
         condition = player.takeDamage(22);
-        assert (condition.equals("unconscious"));
+        assertTrue (condition.equals("unconscious"));
 
         player.setHp(22);
         condition = player.takeDamage(23);
-        assert (condition.equals("unconscious"));
+        assertTrue (condition.equals("unconscious"));
 
         player.setHp(22);
         condition = player.takeDamage(44);
-        assert (condition.equals("dead"));
+        assertTrue (condition.equals("dead"));
 
         player.setHp(22);
         condition = player.takeDamage(45);
-        assert (condition.equals("dead"));
+        assertTrue (condition.equals("dead"));
     }
 
     @Test
@@ -53,9 +55,9 @@ class CharacterTest {
         }
 
         if (player.condition.equals("conscious")) {
-            assert (player.hp == 1);
+            assertTrue (player.hp == 1);
         } else {
-            assert (player.condition.equals("dead"));
+            assertTrue (player.condition.equals("dead"));
         }
     }
 }
