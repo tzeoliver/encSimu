@@ -78,6 +78,7 @@ public class Encounter {
 
                 int opponentIndex = pickRandomOpponentFor(item.type);
 
+                //Attack action
                 for (int j = 0; j < item.attacks.multiAttack; j++) {
                     if (this.consciousPlayers == 0) { break; }
                     int attackRoll = rnd.nextInt(20) + 1;
@@ -96,6 +97,10 @@ public class Encounter {
                         successfulHit(opponentIndex,item.attacks.attackDamage);
                     }
                 }
+
+                //Bonus action
+
+
             }
             this.roundNumber++;
         }
